@@ -64,12 +64,17 @@ module.exports = {
 		new webpack.ProvidePlugin({
 			jQuery: "jquery",
 			$: "jquery"
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			}
 		})
 	],
   // performance: {
   //   hints: false
   // },
-  devtool: '#eval-source-map'
+  // devtool: '#eval-source-map'
 }
 
 if (process.env.NODE_ENV === 'production') {

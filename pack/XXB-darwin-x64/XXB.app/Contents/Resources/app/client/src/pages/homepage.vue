@@ -20,7 +20,7 @@
 <script>
 	import chooseBar from '../components/bars/chooseBar.vue'
 	import classItem from '../components/items/classItem.vue'
-	import {loadMore} from '../common/scripts/util'
+	import {loadMore, removeSession} from '../common/scripts/util'
 	export default {
 		name: "",
 		components: {
@@ -90,14 +90,20 @@
 			}
 		},
 		created () {
+			// 清除用来判断跳转路由的courseId
+			removeSession("temp_courseId") // 为课程详情下的制作/查看课件的
+			removeSession("temp_courseWareId") // 为课程详情下的制作/查看课件的
+			removeSession("didPPT") // 判断是否做过ppt 为课程详情的
+			removeSession("courseInfo") // 为课程详情存储的session
+			removeSession("courseId_forClass") // 为上课页面存储的session
 		},
 		mounted () {
+			// 回归访问历史
 			let $test = $('.test')
 			$test.scrollTop(this.mountPoint)
 			$test.on('scroll', () => {
 				this.mountPoint = $('.test').scrollTop()
 			})
-
 		},
 		beforeDestroy(){
 			// domTree still alive but u trigger to destroy it!
@@ -208,6 +214,7 @@
 				}
 				this._clearStatus()
 				if (this.focus) {
+					this._getCourseList(1, 0, 1)
 					this._getCourseList(3, 0, 1)
 				} else {
 					this._getCourseList(2, 1, 1)
@@ -220,6 +227,7 @@
 				}
 				this.focus = 1
 				this._clearStatus()
+				this._getCourseList(1, 0, 1)
 				this._getCourseList(3, 0, 1)
 			},
 			//载入历史课程

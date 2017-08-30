@@ -4,6 +4,7 @@
 /* 常用工具函数
  * @author Acery
  * @version 0.0.3
+ * @mention: 需要拆分
  */
 
 /**
@@ -115,7 +116,7 @@ const setMediaStream = (hasAudio, hasVideo) => {
 		audio: hasAudio,
 		video: hasVideo
 	}
-	return navigator.mediaDevices.getUserMedia(constraint)
+	return navigator.mediaDevices.getUserMedia(constraint) // Promise
 }
 
 /**
@@ -167,6 +168,41 @@ const readAudioTo_HZ_Array = (audioSrc, ffSize) => {
 	return {array: new Uint8Array(analyser.frequencyBinCount), analyser, audio, audioBox}
 }
 
+const setSession = (name, content) => {
+	if (!name) return;
+	if (typeof content !== 'string') {
+		content = JSON.stringify(content);
+	}
+	window.sessionStorage.setItem(name, content);
+}
+
+/**
+ * 获取STORE
+ * @param name 存贮的名字
+ */
+const getSession = name => {
+	if (!name) return;
+	return window.sessionStorage.getItem(name);
+}
+
+/**
+ * 删除sessionSTORE
+ * @param name
+ */
+const removeSession = name => {
+	if (!name) return;
+	window.sessionStorage.removeItem(name);
+}
+
+/**
+ * 清除所有的localStorage
+ */
+const removeAllSession = () => {
+	for (let i of Object.keys(window.sessionStorage)) {
+		window.sessionStorage.removeItem(i)
+	}
+}
+
 /**
  *  存储本地STORE
  * @param name
@@ -188,6 +224,7 @@ const getStore = name => {
 	if (!name) return;
 	return window.localStorage.getItem(name);
 }
+
 
 /**
  * 删除本地STORE
@@ -297,9 +334,7 @@ const judgeOutDate = (Expires) => {
  */
 const getCookie = (name) => {
 	let arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-	
 	if (arr = document.cookie.match(reg))
-		
 		return (arr[2]);
 	else
 		return null;
@@ -314,7 +349,11 @@ const delCookie = (name) => {
 	exp.setTime(exp.getTime() - 1);
 	let cval = getCookie(name);
 	if (cval != null) {
-		document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+		let a = `x_token=${name};Path=/;Domain=localhost:2048;Expires=Thu, 01-Jan-1970 00:00:00 GMT`;
+		console.log(a)
+		// document.cookie = name + "=" + cval + "Path=/;expires=" + exp.toGMTString();
+		 document.cookie = a;
+
 	}
 	
 }
@@ -340,5 +379,5 @@ const setCookie = (name, value, seconds) => {
 export {
 	countFn, parseTime, judgeTime, randomNum, verifyVal, setMediaStream, outputAudioData, computeVolume,
 	readAudioTo_HZ_Array, getStore, removeStore, loadMore, setStore, setUserInfoInLocal, judgeOutDate, getCookie,
-	delCookie, setCookie, removeAllStore
+	delCookie, setCookie, removeAllStore,getSession,setSession,removeSession,removeAllSession
 }

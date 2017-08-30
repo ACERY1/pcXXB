@@ -99,10 +99,11 @@
 						//教师端 15711370918 123456
 						setUserInfoInLocal(_data.teacherInfo) // 在本地保存用户数据
 						this.$store.commit('RECORD_TEACHER_INFO', _data.teacherInfo) // 保存数据
+						this.$store.commit('UPDATE_X_TOKEN', _data.x_token); // 保存x_token
 						this.$store.commit('RECORD_IS_LOGIN') // 提交登录状态
 						this.$message({message: "登录成功！", type: 'success', duration: 1000})
 						setTimeout(() => {
-							this.$router.push('/static/home')
+							this.$router.push('main')
 						}, 1000)
 
 					} else {
@@ -111,7 +112,7 @@
 						this.busy = false
 					}
 				}).catch((err) => {
-					this.$message({message: `错误+${err}`, type: 'error', duration: 1000})
+					this.$message({message: `错误${err.status},${err.statusText}`, type: 'error', duration: 1000})
 					this.busy = false
 				})
 			},
@@ -134,7 +135,13 @@
 				this.$api.resetPassword(this.userTel, this.password, this.verifyCode).then((res) => {
 
 					let _data = res.data
-					this.$message({message: _data.msg, type: 'error', duration: 1000})
+					if (_data.status == 0) {
+						this.$message({message: "重置成功", type: 'error', duration: 1000})
+					  	this.switchToGetPwd = !this.switchToGetPwd
+					} else {
+						this.$message({message: _data.msg, type: 'error', duration: 1000})
+					}
+
 
 //					if (_data.status = '-18') {
 //						this.$message({message: _data.msg, type: 'error', duration: 1000})
