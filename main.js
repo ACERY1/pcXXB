@@ -93,12 +93,12 @@ app.on('ready', () => {
 	
 	// 制作课件
 	ipcMain.on("courseWare", () => {
-		mainWindow.loadURL("http://localhost:1258/courseware.html")
+		mainWindow.loadURL(`file://${__dirname}/client/courseware.html`)
 	})
 	
 	// 制作报告
 	ipcMain.on("report", () => {
-		mainWindow.loadURL("http://localhost:1258/report.html")
+		mainWindow.loadURL(`file://${__dirname}/client/report.html`)
 	})
 	
 	// 上课状态

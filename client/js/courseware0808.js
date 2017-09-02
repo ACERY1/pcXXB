@@ -1,4 +1,9 @@
 $("#ppt-content").load(function () {
+	
+	
+	let baseUrl= 'http://webapi.91xuexibao.com' // for prod
+	
+	
 	var iframe = $("#ppt-content").contents().find('body');
 	var iframeWindow = $(document.getElementById('ppt-content').contentWindow);
 	var qtype = 1;//1为讲解题目，2为练习题
@@ -21,7 +26,7 @@ $("#ppt-content").load(function () {
 					pageId.push(iframe.find('.ppt-page-body').eq(i).attr('data-id'))
 					imgUrl.push(url);
 					$.ajax({
-						url: '/courseware/api/saveCoursewareImg',
+						url: `${baseUrl}/courseware/api/saveCoursewareImg`,
 						type: 'post',
 						datatype: 'json',
 						data: {
@@ -234,7 +239,7 @@ $("#ppt-content").load(function () {
 		console.log(index);
 		$.ajax({
 			type: 'post',
-			url: '/courseware/api/movePage',
+			url: `${baseUrl}/courseware/api/movePage`,
 			datatype: 'json',
 			async: false,
 			data: {
@@ -284,7 +289,7 @@ $("#ppt-content").load(function () {
 	}
 	
 	$.ajax({
-		url: '/courseware/api/courseinfo',
+		url: `${baseUrl}/courseware/api/courseinfo`,
 		type: 'post',
 		datatype: 'json',
 		async: false,
@@ -447,7 +452,7 @@ $("#ppt-content").load(function () {
 	var init = function () {
 		$.ajax({
 			type: 'get',
-			url: '/fs/api/getToken',
+			url: `${baseUrl}/fs/api/getToken`,
 			async: false,
 			datatype: 'json',
 			success: function (data) {
@@ -457,7 +462,7 @@ $("#ppt-content").load(function () {
 		})
 		//获取全部课件页
 		$.ajax({
-			url: '/courseware/api/listPage',
+			url: `${baseUrl}/courseware/api/listPage`,
 			type: 'post',
 			cache: false,
 			datatype: 'json',
@@ -517,7 +522,7 @@ $("#ppt-content").load(function () {
 		})
 		//查找给该学生上过的课
 		$.ajax({
-			url: '/courseware/api/searchTeachCount',
+			url: `${baseUrl}/courseware/api/searchTeachCount`,
 			type: 'post',
 			datatype: 'json',
 			data: {
@@ -538,7 +543,7 @@ $("#ppt-content").load(function () {
 	
 	function initPointSelect(grade, subject) {
 		return $.ajax({
-			url: '/xxbQuestion/searchBySession',
+			url: `${baseUrl}/xxbQuestion/searchBySession`,
 			datatype: 'json',
 			type: 'post',
 			data: {
@@ -567,7 +572,7 @@ $("#ppt-content").load(function () {
 				$('.pointBySession ul li').eq(0).addClass('active');
 				
 				$.ajax({
-					url: '/xxbQuestion/searchGradeOrType',
+					url:`${baseUrl}/xxbQuestion/searchGradeOrType`,
 					datatype: 'json',
 					type: 'post',
 					async: false,
@@ -616,7 +621,7 @@ $("#ppt-content").load(function () {
 			}
 			else if (cl == "session-ul") {
 				$.ajax({
-					url: '/xxbQuestion/searchGradeOrType',
+					url: `${baseUrl}/xxbQuestion/searchGradeOrType`,
 					datatype: 'json',
 					type: 'post',
 					async: false,
@@ -688,10 +693,10 @@ $("#ppt-content").load(function () {
 				editionId = $('.pointBySession li.active').attr('data-id'), xueqi = $('.pointByXueqi li.active').attr('data-id');
 				data.editionId = editionId == undefined ? '' : editionId,
 					data.xueqi = xueqi;
-				url = "/xxbQuestion/searchByXueqi"
+				url = `${baseUrl}/xxbQuestion/searchByXueqi`
 			}
 			else {
-				url = "/xxbQuestion/searchByPoint";
+				url = `${baseUrl}/xxbQuestion/searchByPoint`;
 				if ($('.freq-ul li.active').html() != '全部') {
 					data.frequency = $('.degree-ul li.active').html();
 				}
@@ -825,7 +830,7 @@ $("#ppt-content").load(function () {
 			data.subject = s != "undefined" ? s : subject;
 			data.grade = g != "undefined" ? g : grade;
 			$.ajax({
-				url: '/xxbQuestion/fTypeNameList',
+				url: `${baseUrl}/xxbQuestion/fTypeNameList`,
 				type: 'post',
 				datatype: 'json',
 				async: false,
@@ -951,7 +956,7 @@ $("#ppt-content").load(function () {
 		data.subject = s != "undefined" ? s : subject;
 		data.grade = g != "undefined" ? g : grade;
 		$.ajax({
-			url: "/xxbQuestion/result",
+			url: `${baseUrl}/xxbQuestion/result`,
 			type: "get",
 			datatype: "json",
 			data: data,
@@ -976,7 +981,7 @@ $("#ppt-content").load(function () {
 					}
 					$('.sanwser').hide('div');
 					$.ajax({
-						url: "/xxbQuestion/searchQuestionFrequency",
+						url: `${baseUrl}/xxbQuestion/searchQuestionFrequency`,
 						type: "get",
 						datatype: "json",
 						data: {
@@ -1402,7 +1407,7 @@ $("#ppt-content").load(function () {
 		focusThumbnail(totalpage);
 		
 		$.ajax({
-			url: '/courseware/api/createQuestionPage2',
+			url: `${baseUrl}/courseware/api/createQuestionPage2`,
 			type: 'post',
 			datatype: 'json',
 			async: false,
@@ -1437,7 +1442,7 @@ $("#ppt-content").load(function () {
 							else {
 								
 								$.ajax({
-									url: '/courseware/api/saveCoursewareImg',
+									url: `${baseUrl}/courseware/api/saveCoursewareImg`,
 									type: 'post',
 									data: {
 										pageId: JSON.stringify(pageId),
@@ -1460,7 +1465,7 @@ $("#ppt-content").load(function () {
 			}
 		})
 		$.ajax({
-			url: '/xxbQuestion/updateQuestionFrequency',
+			url: `${baseUrl}/xxbQuestion/updateQuestionFrequency`,
 			type: 'post',
 			datatype: 'json',
 			data: {
@@ -1511,7 +1516,7 @@ $("#ppt-content").load(function () {
 		var pageId = new Array(), imgUrl = new Array();
 		focusThumbnail(totalpage);
 		$.ajax({
-			url: '/courseware/api/createNewPage',
+			url: `${baseUrl}/courseware/api/createNewPage`,
 			type: 'post',
 			datatype: 'json',
 			async: false,
@@ -1521,7 +1526,7 @@ $("#ppt-content").load(function () {
 				iframe.find('.ppt-page-body').eq(totalpage).append('<input type="hidden" value="' + data.pageId + '" class="pageId"/>');
 				iframe.find('.ppt-page-body').eq(totalpage).attr('data-id', data.pageId);
 				$.ajax({
-					url: '/courseware/api/savePage',
+					url: `${baseUrl}/courseware/api/savePage`,
 					type: 'post',
 					datatype: 'json',
 					async: false,
@@ -1620,7 +1625,7 @@ $("#ppt-content").load(function () {
 				data.pageList = JSON.stringify(pageList);
 				data.coursewareId = $('.hid-cid').val();
 				$.ajax({
-					url: '/courseware/api/deleteQuestionPage',
+					url: `${baseUrl}/courseware/api/deleteQuestionPage`,
 					type: 'post',
 					datatype: 'json',
 					async: false,
@@ -1652,7 +1657,7 @@ $("#ppt-content").load(function () {
 					}
 				})
 				$.ajax({
-					url: '/xxbQuestion/deleteQuestionFrequency',
+					url: `${baseUrl}/xxbQuestion/deleteQuestionFrequency`,
 					type: 'post',
 					datatype: 'json',
 					data: {
@@ -1669,7 +1674,7 @@ $("#ppt-content").load(function () {
 			data.pageId = iframe.find('.ppt-page-body').eq(index).attr('data-id');
 			data.coursewareId = $('.hid-cid').val();
 			$.ajax({
-				url: '/courseware/api/deletePage',
+				url: `${baseUrl}/courseware/api/deletePage`,
 				type: 'post',
 				datatype: 'json',
 				async: false,
@@ -1714,7 +1719,7 @@ $("#ppt-content").load(function () {
 		
 		//$('.ppt-page-body').eq(index).HtmlToImage();
 		$.ajax({
-			url: '/courseware/api/savePage',
+			url: `${baseUrl}/courseware/api/savePage`,
 			type: 'post',
 			datatype: 'json',
 			data: data,
@@ -1740,7 +1745,7 @@ $("#ppt-content").load(function () {
 		})
 		data.knowledge = JSON.stringify(knowledges);
 		$.ajax({
-			url: '/courseware/api/saveKnowledge',
+			url: `${baseUrl}/courseware/api/saveKnowledge`,
 			type: 'post',
 			datatype: 'json',
 			data: data,
@@ -1780,7 +1785,7 @@ $("#ppt-content").load(function () {
 		loading.start();
 		saveKnowledge();
 		$.ajax({
-			url: '/courseware/api/savePage',
+			url: `${baseUrl}/courseware/api/savePage`,
 			type: 'post',
 			datatype: 'json',
 			async: false,
@@ -1798,7 +1803,7 @@ $("#ppt-content").load(function () {
 					}
 					else {
 						/*TODO:跳转*/
-						history.go(-1);
+						window.location.href='file:///static/classInfo';
 					}
 					// location.reload();
 					// window.location.replace('/index.html#/courseMessage/List/1');
@@ -1907,7 +1912,7 @@ $("#ppt-content").load(function () {
 			data.imageUrl = "https://fs.91xuexibao.com/" + response.key;
 			data.pagNum = totalpage;
 			$.ajax({
-				url: '/courseware/api/insertOnePage',
+				url: `${baseUrl}/courseware/api/insertOnePage`,
 				type: 'post',
 				datatype: 'json',
 				data: data,
@@ -1978,7 +1983,7 @@ $("#ppt-content").load(function () {
 			else {
 				imgUrl.push(iframe.find('.ppt-page-body').eq(activeIndex).find('.imgUrl').val());
 				$.ajax({
-					url: '/courseware/api/saveCoursewareImg',
+					url: `${baseUrl}/courseware/api/saveCoursewareImg`,
 					type: 'post',
 					async: async,
 					data: {
@@ -2041,7 +2046,7 @@ $("#ppt-content").load(function () {
 		formData.append("courseware_id", $('.hid-cid').val());
 		formData.append("file", file[0]);
 		$.ajax({
-			url: '/courseware/api/uploadPDF',
+			url: `${baseUrl}/courseware/api/uploadPDF`,
 			data: formData,
 			type: 'post',
 			processData: false,
@@ -2065,7 +2070,7 @@ $("#ppt-content").load(function () {
 			data.coursewareId = $('.hid-cid').val();
 			data.pageList = JSON.stringify(pageList);
 			$.ajax({
-				url: '/courseware/api/cancelPDF',
+				url: `${baseUrl}/courseware/api/cancelPDF`,
 				type: 'post',
 				datatype: 'json',
 				data: data,

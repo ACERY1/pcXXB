@@ -7,10 +7,11 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: isPro ?
-			path.resolve(__dirname, './dist') : //发布引用路径
-			'/dist/',
-		filename: 'build.js'
+		// publicPath: isPro ?
+		// 	path.resolve(__dirname, './dist') : //发布引用路径
+		// 	'/dist/',
+		filename: 'build.js',
+		publicPath: path.resolve(__dirname, './dist')
   },
   module: {
     rules: [
@@ -33,20 +34,23 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]?[hash]'
-        }
-      },
+			{
+				test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+				loader: 'file-loader',
+				query: {
+					name: '/[name].[ext]'
+				}
+			},
 			{
 				test: /\.css$/,
 				loader: 'style-loader!css-loader'
 			},
 			{
-				test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-				loader: 'file-loader'
+				test: /\.(eot|ttf|woff|woff2)(\?\S*)?$/,
+				loader: 'file-loader',
+				query: {
+					name: '/[name].[ext]'
+				}
 			},
     ]
   },

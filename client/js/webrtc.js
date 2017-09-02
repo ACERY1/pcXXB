@@ -1,3 +1,5 @@
+import {wsBaseUrl} from '../src/config/baseURL'
+
 var WebRTC = function(role) {
     var PeerConnection = (window.PeerConnection || window.webkitPeerConnection00 || window.webkitRTCPeerConnection || window.mozRTCPeerConnection),
 
@@ -12,7 +14,7 @@ var WebRTC = function(role) {
     moz = !!navigator.mozGetUserMedia,
 
     // websocketServer = "ws://" + window.sessionStorage.getItem('temp_host') + "/media/websocket/ws",
-    websocketServer = "ws://localhost:2048/media/websocket/ws",
+    websocketServer = `${wsBaseUrl}/media/websocket/ws`,
 
     packetSize = 100,
     
