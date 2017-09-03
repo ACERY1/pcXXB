@@ -169,7 +169,7 @@
 					})
 				} else {
 					this._showMessageBox('是否退出学习宝客户端', () => {
-						this.$message('正在上课，是否退出学习宝教师端?', {
+						this.$message({
 							message: '再见'
 						});
 						setTimeout(() => {

@@ -147,65 +147,52 @@
 					begin: null, //ms
 					end: null, //ms
 
-				}).then((res) = > {
+				}).then((res) => {
 					let _data = res.data
 
 					//符合条件时status为0*/
-					if (_data.status
-			)
-				{
-					this.$message(_data.msg)
-					this.isQuery = false
-					return false
-				}
-			else
-				{
-					//数组赋值*/
-					for (let i of _data.courses) {
-						this.courseInfo.push(i)
-					}
-					if (_data.courses.length < 5) {
-						this.busy = false;
-						this.loadingIcon = false;
+					if (_data.status) {
+						this.$message(_data.msg)
 						this.isQuery = false
-						this.leftNone = true;// 标记没有更多了
-						return this.$message({
-							message: '没有更多了',
+						return false
+					}
+					else {
+						//数组赋值*/
+						for (let i of _data.courses) {
+							this.courseInfo.push(i)
+						}
+						if (_data.courses.length < 5) {
+							this.busy = false;
+							this.loadingIcon = false;
+							this.isQuery = false
+							this.leftNone = true;// 标记没有更多了
+							return this.$message({
+								message: '没有更多了',
+								duration: 1500
+							})
+						}
+
+						//释放加载动画
+						this.busy = false;
+						// 释放锁
+						this.isQuery = false
+
+					}
+
+				}).catch((err) => {
+					if (err.toString().indexOf('403') != -1) {
+						this.$message({
+							message: "没有认证！",
 							duration: 1500
 						})
+						setTimeout(() => {
+							this.$router.push('/static/login')
+						}, 1500)
 					}
-
-					//释放加载动画
-					this.busy = false;
-					// 释放锁
-					this.isQuery = false
-
-				}
-
-			}).
-				catch((err) = > {
-					if (err.toString().indexOf('403') != -1
-			)
-				{
-					this.$message({
-						message: "没有认证！",
-						duration: 1500
-					})
-					setTimeout(() = > {
-						this.$router.push('/static/login')
-				},
-					1500
-				)
-				}
-			else
-				{
-					this.$message(
-						{
-							message: err
-						}
-					)
-				}
-			})
+					else {
+						this.$message({message: err})
+					}
+				})
 			},
 			// 清除历史状态和计数
 			_clearStatus (){
