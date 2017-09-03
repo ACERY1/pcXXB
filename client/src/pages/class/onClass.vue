@@ -233,7 +233,7 @@
 							} else {
 								this._reDrawByPage(historyData.data.result.student, historyData.data.result.teacher)
 							}
-							if (this.pageCount < this.images.length-1) {
+							if (this.pageCount < this.images.length - 1) {
 								this.pageCount++
 							}
 
@@ -335,6 +335,12 @@
 //						that.$api.syncLessonMessage(this.lessonToken)
 //					}, gapTime)
 //					setSession('interval_id', intervalId)
+
+					if (!getSession('courseId_forClass')) {
+						// 停止轮询的标志
+						console.log('你已离开教室')
+						return false
+					}
 					this.$api.syncLessonMessage(this.lessonToken).then((res) => {
 						if (!res.data.status) {
 							if (!res.data.result.msgs) {

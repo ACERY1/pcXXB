@@ -147,55 +147,65 @@
 					begin: null, //ms
 					end: null, //ms
 
-				}).then((res) => {
+				}).then((res) = > {
 					let _data = res.data
 
 					//符合条件时status为0*/
-					if (_data.status) {
-						this.$message(_data.msg)
-						this.isQuery = false
-						return false
-					} else {
-						//数组赋值*/
-						for (let i of _data.courses) {
-							this.courseInfo.push(i)
-						}
-						if (_data.courses.length < 5) {
-							this.busy = false;
-							this.loadingIcon = false;
-							this.isQuery = false
-							this.leftNone = true;// 标记没有更多了
-							return this.$message({
-								message: '没有更多了',
-								duration: 1500
-							})
-						}
-
-						//释放加载动画
-						this.busy = false;
-						// 释放锁
-						this.isQuery = false
-
+					if (_data.status
+			)
+				{
+					this.$message(_data.msg)
+					this.isQuery = false
+					return false
+				}
+			else
+				{
+					//数组赋值*/
+					for (let i of _data.courses) {
+						this.courseInfo.push(i)
 					}
-
-				}).catch((err) => {
-					if (err.toString().indexOf('403') != -1) {
-						this.$message({
-							message: "没有认证！",
+					if (_data.courses.length < 5) {
+						this.busy = false;
+						this.loadingIcon = false;
+						this.isQuery = false
+						this.leftNone = true;// 标记没有更多了
+						return this.$message({
+							message: '没有更多了',
 							duration: 1500
 						})
-						setTimeout(() => {
-							this.$router.push('/static/login')
-						}, 1500)
 					}
-					else {
-						this.$message(
-							{
-								message: err
-							}
-						)
-					}
-				})
+
+					//释放加载动画
+					this.busy = false;
+					// 释放锁
+					this.isQuery = false
+
+				}
+
+			}).
+				catch((err) = > {
+					if (err.toString().indexOf('403') != -1
+			)
+				{
+					this.$message({
+						message: "没有认证！",
+						duration: 1500
+					})
+					setTimeout(() = > {
+						this.$router.push('/static/login')
+				},
+					1500
+				)
+				}
+			else
+				{
+					this.$message(
+						{
+							message: err
+						}
+					)
+				}
+			})
 			},
 			// 清除历史状态和计数
 			_clearStatus (){
@@ -207,15 +217,20 @@
 				this.currentPageIndex = 0
 				this.historyPageIndex = 0
 			},
+			// 查询未上课程和正在上的课程
+			_queryCurrentCourse (){
+				this._getCourseList(1, 0, 1)
+				this._getCourseList(3, 0, 1)
+			},
 			// 刷新按钮事件
 			reFresh(){
+				// 1,0,1 : 正在上的课  3，0，1：待上课程 2，0，1
 				if (this.isQuery) {
 					return false
 				}
 				this._clearStatus()
 				if (this.focus) {
-					this._getCourseList(1, 0, 1)
-					this._getCourseList(3, 0, 1)
+					this._queryCurrentCourse()
 				} else {
 					this._getCourseList(2, 1, 1)
 				}
@@ -227,8 +242,7 @@
 				}
 				this.focus = 1
 				this._clearStatus()
-				this._getCourseList(1, 0, 1)
-				this._getCourseList(3, 0, 1)
+				this._queryCurrentCourse()
 			},
 			//载入历史课程
 			historyCourse(){
@@ -237,17 +251,18 @@
 				this._getCourseList(2, 1, 1)
 			},
 			//载入待上课程
-			loadCourse(){
-				this._getCourseList(3, 0, 1)
-			},
-			loadHistoryCourse(){
-				console.log(this.focus)
-				this._getCourseList(2, 1, 1)
-			},
+//			loadCourse(){
+//				this._getCourseList(3, 0, 1)
+//			},
+//			loadHistoryCourse(){
+//				this._getCourseList(2, 1, 1)
+//			},
+			// 懒加载函数
 			loadFn(){
+				// this.focus为1 为查询待上课程
 				if (this.focus) {
-					this._getCourseList(3, 0, 1)
 					this._getCourseList(1, 0, 1)
+					this._getCourseList(3, 0, 1)
 				} else {
 					this._getCourseList(2, 1, 1)
 				}
