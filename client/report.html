@@ -475,12 +475,12 @@
 		<% if(l[i].type==1){ %>
 		<% for(var j=0,g=l[i].url,lg=g.length;j
 		<lg
-		;j++){ %>
-		<img src="<%= url+g[j] %>" crossOrigin="*">
-		<% } %>
-		<% }else{ %>
-		<pre><%= l[i].data %></pre>
-		<% } %>
+				;j++){ %>
+			<img src="<%=g[j] %>" crossOrigin="*">
+			<% } %>
+			<% }else{ %>
+			<pre><%= l[i].data %></pre>
+			<% } %>
 	</li>
 	<% } %>
 </script>
@@ -488,8 +488,9 @@
 <script src="js/html2canvas.js"></script>
 <script>
 	//异步请求地址
-	var ajaxUrl = '/teacher/api/webcast/getTeacherEvluateNew';
-	var tokenUrl = '/fs/api/getToken';
+	let baseUrl = 'http://webapi.91xuexibao.com' // for prod
+	var ajaxUrl = `${baseUrl}/teacher/api/webcast/getTeacherEvluateNew`;
+	var tokenUrl = `${baseUrl}/fs/api/getToken`;
 	var imgUrl = '/teacher/api/webcast/uploadReportImage';
 	//	console.log(window.sessionStorage.getItem('temp_courseId'))
 	var courseId = window.sessionStorage.getItem('temp_courseId');
