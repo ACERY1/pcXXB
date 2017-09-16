@@ -2,6 +2,13 @@ $("#ppt-content").load(function () {
 	
 	
 	let baseUrl= 'http://webapi.91xuexibao.com' // for prod
+	let filePath = window.localStorage.getItem("filePath")
+	
+	
+	$('.goBack_yzy').on('click',function () {
+		console.log("get")
+		window.location.href=`${window.localStorage.getItem("filePath")}#/static/classInfo`;
+	})
 	
 	
 	var iframe = $("#ppt-content").contents().find('body');
@@ -1803,7 +1810,8 @@ $("#ppt-content").load(function () {
 					}
 					else {
 						/*TODO:跳转*/
-						window.location.href='file:///static/classInfo';
+						// window.location.href='file:///static/classInfo';
+						window.location.href=`${filePath}#/static/classInfo`;
 					}
 					// location.reload();
 					// window.location.replace('/index.html#/courseMessage/List/1');
